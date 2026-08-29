@@ -1,8 +1,7 @@
 ﻿
-#include "Gameplay/Characters/GT_MadelaineCharacter.h"
+#include "Gameplay/Player/GT_MadelaineCharacter.h"
 
 #include "GameFramework/CharacterMovementComponent.h"
-#include "GT_LogCategories.h"
 #include "Gameplay/Settings/GT_PlayerSettings.h"
 
 AGT_MadelaineCharacter::AGT_MadelaineCharacter()
@@ -22,7 +21,7 @@ void AGT_MadelaineCharacter::BeginPlay()
 
 	if (!PlayerSettings)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing PlayerSettings reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing PlayerSettings reference."), *GetName());
 	}
 
 	ApplyMovementRotationSettings();

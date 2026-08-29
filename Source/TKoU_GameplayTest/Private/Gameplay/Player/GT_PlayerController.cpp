@@ -1,10 +1,9 @@
 ﻿
 
-#include "Gameplay/Controllers/GT_PlayerController.h"
+#include "Gameplay/Player/GT_PlayerController.h"
 
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
-#include "GT_LogCategories.h"
 #include "InputAction.h"
 #include "InputActionValue.h"
 #include "Gameplay/Interfaces/GT_PlayerControllableInterface.h"
@@ -200,27 +199,27 @@ void AGT_PlayerController::ValidateInputReferences() const
 {
 	if (!PlayerSettings)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing PlayerSettings reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing PlayerSettings reference."), *GetName());
 	}
 
 	if (!DefaultMappingContext)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing DefaultMappingContext input reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing DefaultMappingContext input reference."), *GetName());
 	}
 
 	if (!MoveAction)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing MoveAction input reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing MoveAction input reference."), *GetName());
 	}
 
 	if (!LookAction)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing LookAction input reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing LookAction input reference."), *GetName());
 	}
 
 	if (!SprintAction)
 	{
-		UE_LOG(LogTKoUGameplay, Warning, TEXT("%s is missing SprintAction input reference."), *GetName());
+		UE_LOG(LogTemp, Warning, TEXT("%s is missing SprintAction input reference."), *GetName());
 	}
 }
 
