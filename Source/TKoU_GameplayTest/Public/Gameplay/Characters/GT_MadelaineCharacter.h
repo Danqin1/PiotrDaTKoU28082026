@@ -4,16 +4,14 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Character.h"
+#include "Gameplay/Interfaces/GT_PlayerControllableInterface.h"
 #include "GT_MadelaineCharacter.generated.h"
 
 
-class UInputAction;
-class UInputMappingContext;
 class UGT_PlayerSettings;
-struct FInputActionValue;
 
 UCLASS()
-class TKOU_GAMEPLAYTEST_API AGT_MadelaineCharacter : public ACharacter
+class TKOU_GAMEPLAYTEST_API AGT_MadelaineCharacter : public ACharacter, public IGT_PlayerControllableInterface
 {
 	GENERATED_BODY()
 
@@ -23,9 +21,13 @@ public:
 
 	virtual void BeginPlay() override;
 	virtual void Tick(float DeltaTime) override;
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 	
 	void AddForwardMovementInput(float Value);
+
+	virtual void AddPlayerMovementInput_Implementation(const FVector& WorldMovementInput, const FVector2D& CameraRelativeMovementInput) override;
+	virtual void StopPlayerMovementInput_Implementation() override;
+	virtual void SetPlayerViewRotation_Implementation(const FRotator& ViewRotation) override;
+	virtual void SetSprinting_Implementation(bool bShouldSprint) override;
 
 	UFUNCTION(BlueprintPure, Category = "Input")
 	FVector2D GetCurrentCameraRelativeMovementInput() const;
@@ -38,18 +40,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
 	TObjectPtr<UGT_PlayerSettings> PlayerSettings;
 
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputMappingContext> DefaultMappingContext;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> MoveAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> LookAction;
-
-	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
-	TObjectPtr<UInputAction> SprintAction;
-
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Movement")
 	bool bIsSprinting = false;
 
@@ -57,21 +47,11 @@ protected:
 	FVector2D CurrentCameraRelativeMovementInput = FVector2D::ZeroVector;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Look")
-	float CurrentLookYaw = 0.f;
+	float CurrentViewYaw = 0.f;
 
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Look")
-	float CurrentLookPitch = 0.f;
-
-	void Move(const FInputActionValue& Value);
-	void StopMoving(const FInputActionValue& Value);
-	void Look(const FInputActionValue& Value);
-	void StartSprinting();
-	void StopSprinting();
 	void ApplyMovementSpeed() const;
 	void ApplyMovementRotationSettings() const;
-	void CacheCurrentLookRotation();
 	void UpdateFacingFromVelocity();
 	void FaceCurrentLookDirection();
 	void FaceDirection(const FVector& Direction);
-	float ClampLookAngle(float Angle, const FVector2D& Limits) const;
 };
