@@ -13,4 +13,7 @@ UCLASS()
 class TKOU_GAMEPLAYTEST_API UGT_GameInstance : public UGameInstance
 {
 	GENERATED_BODY()
+public:
+	
+	virtual void Init() override;
 };
