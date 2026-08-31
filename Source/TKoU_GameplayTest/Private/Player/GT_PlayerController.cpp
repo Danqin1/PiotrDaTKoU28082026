@@ -44,6 +44,11 @@ void AGT_PlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	Super::EndPlay(EndPlayReason);
 }
 
+void AGT_PlayerController::UpdateLookYawToCurrent()
+{
+	CurrentLookYaw = GetControlRotation().Yaw;
+}
+
 void AGT_PlayerController::SetupInputComponent()
 {
 	Super::SetupInputComponent();
@@ -74,6 +79,12 @@ void AGT_PlayerController::SetupInputComponent()
 				&AGT_PlayerController::StopSprinting);
 			EnhancedInputComponent->BindAction(SprintAction, ETriggerEvent::Canceled, this,
 				&AGT_PlayerController::StopSprinting);
+		}
+		
+		if (FastRotateAction)
+		{
+			EnhancedInputComponent->BindAction(FastRotateAction, ETriggerEvent::Started, this,
+				&AGT_PlayerController::FastRotate);
 		}
 	}
 }
@@ -202,6 +213,12 @@ void AGT_PlayerController::StopSprinting()
 	{
 		IGT_PlayerControllableInterface::Execute_SetSprinting(ControlledCharacter, false);
 	}
+}
+
+void AGT_PlayerController::FastRotate(const FInputActionValue& InputActionValue)
+{
+	CurrentLookYaw += 180;
+	SetControlRotation(FRotator(CurrentLookPitch, CurrentLookYaw, 0.f));
 }
 
 void AGT_PlayerController::CacheCurrentLookRotation()

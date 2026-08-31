@@ -33,6 +33,9 @@ protected:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
 	TObjectPtr<UInputAction> SprintAction;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Input")
+    TObjectPtr<UInputAction> FastRotateAction;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Look")
 	float CurrentLookYaw = 0.f;
@@ -55,6 +58,7 @@ protected:
 	void Look(const FInputActionValue& Value);
 	void StartSprinting();
 	void StopSprinting();
+	void FastRotate(const FInputActionValue& InputActionValue);
 
 private:
 
@@ -70,4 +74,5 @@ private:
 public:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+	void UpdateLookYawToCurrent();
 };

@@ -2,6 +2,7 @@
 
 #include "GameFramework/Character.h"
 #include "Interfaces/GT_PlayerControllableInterface.h"
+#include "Player/GT_PlayerController.h"
 #include "Player/Components/ClimbComponent.h"
 
 AClimbTrigger::AClimbTrigger()
@@ -47,7 +48,17 @@ void AClimbTrigger::Climb_Implementation(ACharacter* character)
 	}
 
 	character->SetActorLocation(Trigger->GetComponentLocation());
-	character->PlayAnimMontage(AnimToPlay);
+	if (AGT_PlayerController* Controller = Cast<AGT_PlayerController>(character->GetController()))
+	{
+		character->SetActorRotation(Trigger->GetComponentRotation(), ETeleportType::ResetPhysics);
+		Controller->SetControlRotation(Trigger->GetComponentRotation());
+		Controller->UpdateLookYawToCurrent();
+	};
+	
+	GetWorld()->GetTimerManager().SetTimerForNextTick([this, character]
+	{
+		character->PlayAnimMontage(AnimToPlay);
+	});
 }
 
 float AClimbTrigger::GetDuration_Implementation()
