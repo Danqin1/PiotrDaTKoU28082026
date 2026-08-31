@@ -40,4 +40,16 @@ public:
 	
 	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
 	void ResetStateFrom(EGameplayPlayerState stateFromReset);
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	bool IsSprinting();
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FVector2D GetCurrentCameraRelativeMovementInput() const;
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	FVector GetPlayerVelocity();
+	
+	UFUNCTION(BlueprintCallable, BlueprintNativeEvent)
+	float GetMaxSpeed();
 };

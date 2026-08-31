@@ -34,7 +34,7 @@ void AGT_PlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 	
 	if (HUD)
 	{
-		HUD->RemoveFromViewport();
+		HUD->RemoveFromParent();
 	}
 
 	if (USaveSubsystem* SaveSubsystem = GetGameInstance()->GetSubsystem<USaveSubsystem>())

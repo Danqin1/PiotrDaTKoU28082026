@@ -26,12 +26,6 @@ public:
 	
 	void AddForwardMovementInput(float Value);
 
-	UFUNCTION(BlueprintPure, Category = "Input")
-	FVector2D GetCurrentCameraRelativeMovementInput() const;
-
-	UFUNCTION(BlueprintPure, Category = "Input")
-	FVector2D GetDirectionRelativeToCamera(const FVector& WorldDirection) const;
-
 protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
@@ -60,7 +54,11 @@ protected:
 	virtual void SetPlayerState_Implementation(EGameplayPlayerState state) override;
 	virtual EGameplayPlayerState GetPlayerState_Implementation() override;
 	virtual void ResetStateFrom_Implementation(EGameplayPlayerState stateFromReset) override;
-
+	virtual bool IsSprinting_Implementation() override;
+	virtual FVector2D GetCurrentCameraRelativeMovementInput_Implementation() const override;
+	virtual FVector GetPlayerVelocity_Implementation() override;
+	virtual float GetMaxSpeed_Implementation() override;
+	
 	void ApplyMovementSpeed() const;
 	void ApplyMovementRotationSettings() const;
 	void UpdateFacingFromVelocity();

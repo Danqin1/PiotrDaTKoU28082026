@@ -98,6 +98,11 @@ void AGT_MadelaineCharacter::ResetStateFrom_Implementation(EGameplayPlayerState 
 	}
 }
 
+bool AGT_MadelaineCharacter::IsSprinting_Implementation()
+{
+	return bIsSprinting;
+}
+
 void AGT_MadelaineCharacter::ApplyMovementSpeed() const
 {
 	if (!PlayerSettings)
@@ -120,31 +125,19 @@ void AGT_MadelaineCharacter::ApplyMovementRotationSettings() const
 	}
 }
 
-FVector2D AGT_MadelaineCharacter::GetCurrentCameraRelativeMovementInput() const
+FVector2D AGT_MadelaineCharacter::GetCurrentCameraRelativeMovementInput_Implementation() const
 {
 	return CurrentCameraRelativeMovementInput;
 }
 
-FVector2D AGT_MadelaineCharacter::GetDirectionRelativeToCamera(const FVector& WorldDirection) const
+FVector AGT_MadelaineCharacter::GetPlayerVelocity_Implementation()
 {
-	if (!CurrentCameraRelativeMovementInput.IsNearlyZero())
-	{
-		return CurrentCameraRelativeMovementInput;
-	}
+	return GetVelocity();
+}
 
-	const FVector FlatDirection = FVector(WorldDirection.X, WorldDirection.Y, 0.f).GetSafeNormal();
-	if (FlatDirection.IsNearlyZero())
-	{
-		return FVector2D::ZeroVector;
-	}
-
-	const FRotator CameraYawRotation(0.f, CurrentViewYaw, 0.f);
-	const FVector CameraForward = CameraYawRotation.Vector();
-	const FVector CameraRight = FRotationMatrix(CameraYawRotation).GetScaledAxis(EAxis::Y);
-
-	return FVector2D(
-		FVector::DotProduct(FlatDirection, CameraForward),
-		FVector::DotProduct(FlatDirection, CameraRight));
+float AGT_MadelaineCharacter::GetMaxSpeed_Implementation()
+{
+	return PlayerSettings->SprintSpeed;
 }
 
 void AGT_MadelaineCharacter::UpdateFacingFromVelocity()

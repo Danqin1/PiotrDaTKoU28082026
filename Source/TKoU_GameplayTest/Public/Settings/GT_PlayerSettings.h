@@ -19,6 +19,9 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement", meta = (ClampMin = "0.0"))
 	float FacingRotationInterpSpeed = 12.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Movement", meta = (ClampMin = "0.0"))
+	float AnimLerpSpeed = 18.f;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Look", meta = (Units = "Degrees"))
 	FVector2D TopDownLookHorizontalLimits = FVector2D(-180.f, 180.f);
