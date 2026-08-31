@@ -1,7 +1,7 @@
 ﻿#pragma once
 
 UENUM(BlueprintType)
-enum EAIState : uint8
+enum class EAIState : uint8
 {
 	Idle,
 	Follow,

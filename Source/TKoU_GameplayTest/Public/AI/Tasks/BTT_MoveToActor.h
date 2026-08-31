@@ -14,5 +14,7 @@ class TKOU_GAMEPLAYTEST_API UBTT_MoveToActor : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
 public:
+	UBTT_MoveToActor();
+
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
 };

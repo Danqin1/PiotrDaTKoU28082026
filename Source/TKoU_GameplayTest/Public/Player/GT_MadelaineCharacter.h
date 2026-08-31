@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/ClimbComponent.h"
 #include "Components/CompanionComponent.h"
 #include "GameFramework/Character.h"
 #include "Interfaces/GT_PlayerControllableInterface.h"
@@ -25,11 +26,6 @@ public:
 	
 	void AddForwardMovementInput(float Value);
 
-	virtual void AddPlayerMovementInput_Implementation(const FVector& WorldMovementInput, const FVector2D& CameraRelativeMovementInput) override;
-	virtual void StopPlayerMovementInput_Implementation() override;
-	virtual void SetPlayerViewRotation_Implementation(const FRotator& ViewRotation) override;
-	virtual void SetSprinting_Implementation(bool bShouldSprint) override;
-
 	UFUNCTION(BlueprintPure, Category = "Input")
 	FVector2D GetCurrentCameraRelativeMovementInput() const;
 
@@ -40,6 +36,9 @@ protected:
 	
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
 	UCompanionComponent* CompanionComp;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Components")
+	UClimbComponent* ClimbComp;
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Settings")
 	TObjectPtr<UGT_PlayerSettings> PlayerSettings;
@@ -52,6 +51,15 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Look")
 	float CurrentViewYaw = 0.f;
+	
+	virtual void AddPlayerMovementInput_Implementation(const FVector& WorldMovementInput, const FVector2D& CameraRelativeMovementInput) override;
+	virtual void StopPlayerMovementInput_Implementation() override;
+	virtual void SetPlayerViewRotation_Implementation(const FRotator& ViewRotation) override;
+	virtual void SetSprinting_Implementation(bool bShouldSprint) override;
+
+	virtual void SetPlayerState_Implementation(EGameplayPlayerState state) override;
+	virtual EGameplayPlayerState GetPlayerState_Implementation() override;
+	virtual void ResetStateFrom_Implementation(EGameplayPlayerState stateFromReset) override;
 
 	void ApplyMovementSpeed() const;
 	void ApplyMovementRotationSettings() const;

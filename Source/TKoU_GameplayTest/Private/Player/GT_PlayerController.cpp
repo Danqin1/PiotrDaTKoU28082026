@@ -6,9 +6,11 @@
 #include "EnhancedInputSubsystems.h"
 #include "InputAction.h"
 #include "InputActionValue.h"
+#include "Blueprint/UserWidget.h"
 #include "Interfaces/GT_PlayerControllableInterface.h"
 #include "Save/SaveSubsystem.h"
 #include "Settings/GT_PlayerSettings.h"
+#include "UI/HUD/PlayerHUDWidget.h"
 
 void AGT_PlayerController::BeginPlay()
 {
@@ -17,11 +19,23 @@ void AGT_PlayerController::BeginPlay()
 	ValidateInputReferences();
 	AddDefaultMappingContext();
 	CacheCurrentLookRotation();
+	
+	if (IsLocalController())
+	{
+		HUD = CreateWidget<UPlayerHUDWidget>(this, HudClass);
+		HUD->AddToViewport();
+	}
+	
 }
 
 void AGT_PlayerController::EndPlay(const EEndPlayReason::Type EndPlayReason)
 {
 	RemoveDefaultMappingContext();
+	
+	if (HUD)
+	{
+		HUD->RemoveFromViewport();
+	}
 
 	if (USaveSubsystem* SaveSubsystem = GetGameInstance()->GetSubsystem<USaveSubsystem>())
 	{
@@ -110,6 +124,10 @@ void AGT_PlayerController::Move(const FInputActionValue& Value)
 {
 	if (UObject* ControlledCharacter = GetControlledCharacter())
 	{
+		if (IGT_PlayerControllableInterface::Execute_GetPlayerState(ControlledCharacter) != EGameplayPlayerState::Nothing)
+		{
+			return;
+		}
 		const FVector2D MovementVector = Value.Get<FVector2D>();
 		if (MovementVector.IsNearlyZero())
 		{
@@ -127,10 +145,8 @@ void AGT_PlayerController::Move(const FInputActionValue& Value)
 		const FVector WorldMovementInput =
 			(CameraForward * MovementVector.Y + CameraRight * MovementVector.X).GetClampedToMaxSize(1.f);
 
-		IGT_PlayerControllableInterface::Execute_AddPlayerMovementInput(
-			ControlledCharacter,
-			WorldMovementInput,
-			CameraRelativeMovementInput);
+		IGT_PlayerControllableInterface::Execute_AddPlayerMovementInput(ControlledCharacter, 
+			WorldMovementInput, CameraRelativeMovementInput);
 	}
 }
 
@@ -172,6 +188,10 @@ void AGT_PlayerController::StartSprinting()
 {
 	if (UObject* ControlledCharacter = GetControlledCharacter())
 	{
+		if (IGT_PlayerControllableInterface::Execute_GetPlayerState(ControlledCharacter) != EGameplayPlayerState::Nothing)
+		{
+			return;
+		}
 		IGT_PlayerControllableInterface::Execute_SetSprinting(ControlledCharacter, true);
 	}
 }

@@ -14,13 +14,13 @@ void UCompanionsSubsystem::PostInit()
 	
 	UE_LOG(LogTemp, Log, TEXT("GT Subsystem Initialized: %s"), *GetNameSafe(this));
 	
-	if (UCompanionDatabase* DB = LoadObject<UCompanionDatabase>(nullptr, TEXT("/Game/Data/Companion/DA_Companions")))
+	if (UCompanionDatabase* DB = LoadObject<UCompanionDatabase>(nullptr, TEXT("/Game/Data/AI/Companion/DA_Companions")))
 	{
 		CompanionsDatabase = DB;
 	}
 	if (!CompanionsDatabase)
 	{
-		UE_LOG(LogTemp, Error, TEXT("CompanionsDatabase not found"));
+		UE_LOG(LogTemp, Error, TEXT("UCompanionsSubsystem::PostInit() CompanionsDatabase not found"));
 	}
 }
 
@@ -33,19 +33,19 @@ bool UCompanionsSubsystem::TrySpawnCompanion(AActor* Player)
 {
 	if (!PlayerSave)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant spawn companion - no player save"));
+		UE_LOG(LogTemp, Error, TEXT(" UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) Cant spawn companion - no player save"));
 		return false;
 	}
 	if (PlayerSave->CompanionSaveData.ChosenCompanion.IsEmpty())
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant spawn companion"));
+		UE_LOG(LogTemp, Error, TEXT(" UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) Cant spawn companion"));
 		return false;
 	}
 	
 	UCompanionData* data = CompanionsDatabase->GetCompanionData(PlayerSave->CompanionSaveData.ChosenCompanion);
 	if (!data || ActiveCompanion)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant spawn companion"));
+		UE_LOG(LogTemp, Error, TEXT(" UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) Cant spawn companion"));
 		return false;
 	}
 	
@@ -55,7 +55,7 @@ bool UCompanionsSubsystem::TrySpawnCompanion(AActor* Player)
 	
 	if (!ActiveCompanion)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Cant spawn companion"));
+		UE_LOG(LogTemp, Error, TEXT(" UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) Cant spawn companion"));
 		return false;
 	}
 	return true;

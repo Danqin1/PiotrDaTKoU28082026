@@ -23,7 +23,7 @@ void USaveSubsystem::PostInit()
 	Super::PostInit();
 	GetGameInstance()->ForEachSubsystem<UGT_GameInstanceSubsystem>([this](UGT_GameInstanceSubsystem* Subsystem)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Subsystem: %s"), *GetNameSafe(Subsystem));
+		UE_LOG(LogTemp, Log, TEXT("Save Restoring Subsystem: %s"), *GetNameSafe(Subsystem));
 		Subsystem->Restore(CurrentPlayerSave);
 	});
 }

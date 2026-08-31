@@ -6,6 +6,7 @@
 #include "GT_PlayerController.generated.h"
 
 
+class UPlayerHUDWidget;
 class UGT_PlayerSettings;
 class UInputAction;
 class UInputMappingContext;
@@ -38,6 +39,12 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Look")
 	float CurrentLookPitch = 0.f;
+	
+	UPROPERTY(EditAnywhere)
+	TSubclassOf<UPlayerHUDWidget> HudClass;
+	
+	UPROPERTY(Transient)
+	UPlayerHUDWidget* HUD;
 		
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;

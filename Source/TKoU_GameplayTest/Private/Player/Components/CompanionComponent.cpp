@@ -44,7 +44,7 @@ void UCompanionComponent::OnFollow(const FInputActionValue& InputActionValue)
 	{
 		if (ACompanionAIController* AIController = Cast<ACompanionAIController>(CompanionsSubsystem->GetCompanion()->GetController()))
 		{
-			AIController->SetFollowing(true);
+			AIController->SetFollowing(true, GetOwner());
 		}
 	}
 }
@@ -55,7 +55,7 @@ void UCompanionComponent::OnUnFollow(const FInputActionValue& InputActionValue)
 	{
 		if (ACompanionAIController* AIController = Cast<ACompanionAIController>(CompanionsSubsystem->GetCompanion()->GetController()))
 		{
-			AIController->SetFollowing(false);
+			AIController->SetFollowing(false, nullptr);
 		}
 	}
 }

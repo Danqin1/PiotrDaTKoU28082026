@@ -32,6 +32,7 @@ protected:
 	
 	UFUNCTION()
 	void OnFollow(const FInputActionValue& InputActionValue);
+	
 	UFUNCTION()
 	void OnUnFollow(const FInputActionValue& InputActionValue);
 };

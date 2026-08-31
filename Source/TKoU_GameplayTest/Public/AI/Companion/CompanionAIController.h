@@ -4,23 +4,34 @@
 
 #include "CoreMinimal.h"
 #include "AI/GT_AIController.h"
+#include "Interfaces/NavInterface.h"
 #include "CompanionAIController.generated.h"
 
+class UBehaviorTree;
+
 UCLASS()
-class TKOU_GAMEPLAYTEST_API ACompanionAIController : public AGT_AIController
+class TKOU_GAMEPLAYTEST_API ACompanionAIController : public AGT_AIController, public INavInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this actor's properties
+	
 	ACompanionAIController();
 
 protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	
+	UPROPERTY(EditAnywhere)
+	UBehaviorTree* DefaultBehaviorTree;
+	
+	FName TargetBlackboardKey = "PlayerTarget";
 
+	virtual void BeginPlay() override;
+	virtual void OnPossess(APawn* InPawn) override;
+	
+	virtual void StartNavLinkAction_Implementation(FVector start, FVector end) override;
+	
 public:
-	// Called every frame
+	
 	virtual void Tick(float DeltaTime) override;
-	void SetFollowing(bool Following);
+	void SetFollowing(bool Following, AActor* toFollow);
 };

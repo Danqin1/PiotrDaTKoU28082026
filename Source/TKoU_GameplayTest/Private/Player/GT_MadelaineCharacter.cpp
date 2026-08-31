@@ -1,7 +1,9 @@
 ﻿
 #include "Player/GT_MadelaineCharacter.h"
 
+#include "Debug/DevDebugSubsystem.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "Player/GameplayPlayerState.h"
 #include "Settings/GT_PlayerSettings.h"
 
 AGT_MadelaineCharacter::AGT_MadelaineCharacter()
@@ -15,6 +17,7 @@ AGT_MadelaineCharacter::AGT_MadelaineCharacter()
 	ApplyMovementSpeed();
 	
 	CompanionComp = CreateDefaultSubobject<UCompanionComponent>(TEXT("CompanionComp"));
+	ClimbComp = CreateDefaultSubobject<UClimbComponent>(TEXT("ClimbComp"));
 }
 
 void AGT_MadelaineCharacter::BeginPlay()
@@ -70,6 +73,29 @@ void AGT_MadelaineCharacter::SetSprinting_Implementation(bool bShouldSprint)
 {
 	bIsSprinting = bShouldSprint;
 	ApplyMovementSpeed();
+}
+
+void AGT_MadelaineCharacter::SetPlayerState_Implementation(EGameplayPlayerState state)
+{
+	State = state;
+	//some multicast event?
+	if (UDevDebugSubsystem* DebugSubsystem = GetGameInstance()->GetSubsystem<UDevDebugSubsystem>())
+	{
+		DebugSubsystem->PlayerState = State;
+	}
+}
+
+EGameplayPlayerState AGT_MadelaineCharacter::GetPlayerState_Implementation()
+{
+	return State;
+}
+
+void AGT_MadelaineCharacter::ResetStateFrom_Implementation(EGameplayPlayerState stateFromReset)
+{
+	if (State == stateFromReset)
+	{
+		IGT_PlayerControllableInterface::Execute_SetPlayerState(this, EGameplayPlayerState::Nothing);
+	}
 }
 
 void AGT_MadelaineCharacter::ApplyMovementSpeed() const
@@ -150,7 +176,8 @@ void AGT_MadelaineCharacter::FaceCurrentLookDirection()
 	const UWorld* World = GetWorld();
 	const float DeltaSeconds = World ? World->GetDeltaSeconds() : 0.f;
 
-	SetActorRotation(FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaSeconds, PlayerSettings->FacingRotationInterpSpeed));
+	SetActorRotation(FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaSeconds, 
+		PlayerSettings->FacingRotationInterpSpeed));
 }
 
 void AGT_MadelaineCharacter::FaceDirection(const FVector& Direction)
@@ -170,5 +197,6 @@ void AGT_MadelaineCharacter::FaceDirection(const FVector& Direction)
 	const UWorld* World = GetWorld();
 	const float DeltaSeconds = World ? World->GetDeltaSeconds() : 0.f;
 
-	SetActorRotation(FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaSeconds, PlayerSettings->FacingRotationInterpSpeed));
+	SetActorRotation(FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaSeconds, 
+		PlayerSettings->FacingRotationInterpSpeed));
 }
