@@ -3,6 +3,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/PlayerController.h"
+#include "Interfaces/PlayerControllerInterface.h"
 #include "GT_PlayerController.generated.h"
 
 
@@ -13,7 +14,7 @@ class UInputMappingContext;
 struct FInputActionValue;
 
 UCLASS()
-class TKOU_GAMEPLAYTEST_API AGT_PlayerController : public APlayerController
+class TKOU_GAMEPLAYTEST_API AGT_PlayerController : public APlayerController, public IPlayerControllerInterface
 {
 	GENERATED_BODY()
 
@@ -60,6 +61,7 @@ protected:
 	void StopSprinting();
 	void FastRotate(const FInputActionValue& InputActionValue);
 
+	virtual UPlayerHUDWidget* GetPlayerHUDWidget_Implementation() override;
 private:
 
 	void AddDefaultMappingContext();

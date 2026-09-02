@@ -8,6 +8,8 @@
 #include "GameFramework/PlayerController.h"
 #include "Interfaces/ClimbableInterface.h"
 #include "Interfaces/GT_PlayerControllableInterface.h"
+#include "Interfaces/PlayerControllerInterface.h"
+#include "UI/HUD/PlayerHUDWidget.h"
 
 UClimbComponent::UClimbComponent()
 {
@@ -31,6 +33,11 @@ void UClimbComponent::SetClimbTarget(AActor* NewClimbTarget)
 
 	CurrentClimbTarget = NewClimbTarget;
 	bCanClimb = IClimbableInterface::Execute_CanClimb(NewClimbTarget);
+	
+	if (auto HUD = IPlayerControllerInterface::Execute_GetPlayerHUDWidget(OwnerCharacter->GetController()))
+	{
+		HUD->ShowClimbAvailable(bCanClimb);
+	}
 }
 
 void UClimbComponent::ClearClimbTarget(AActor* ClimbTargetToClear)
@@ -42,6 +49,11 @@ void UClimbComponent::ClearClimbTarget(AActor* ClimbTargetToClear)
 
 	CurrentClimbTarget = nullptr;
 	bCanClimb = false;
+	
+	if (auto HUD = IPlayerControllerInterface::Execute_GetPlayerHUDWidget(OwnerCharacter->GetController()))
+	{
+		HUD->ShowClimbAvailable(bCanClimb);
+	}
 }
 
 void UClimbComponent::OnClimbInput(const FInputActionValue& InputActionValue)

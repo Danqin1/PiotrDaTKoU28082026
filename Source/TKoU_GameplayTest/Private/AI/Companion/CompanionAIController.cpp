@@ -84,7 +84,7 @@ void ACompanionAIController::StartNavLinkAction_Implementation(FVector start, FV
 	const float FlightTime = FMath::Max((VerticalSpeed + FMath::Sqrt(Discriminant)) / Gravity, 0.1f);
 
 	const FVector HorizontalVelocity = DirectionToDestination / FlightTime;
-	const FVector LaunchVelocity = HorizontalVelocity + FVector::UpVector * VerticalSpeed * 1.3f;
+	const FVector LaunchVelocity = HorizontalVelocity + FVector::UpVector * VerticalSpeed * 1.1f;
 
 	MovementComponent->StopMovementImmediately();
 	CompanionCharacter->LaunchCharacter(LaunchVelocity, true, true);

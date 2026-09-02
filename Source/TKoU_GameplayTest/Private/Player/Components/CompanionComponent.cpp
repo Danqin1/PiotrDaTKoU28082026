@@ -25,7 +25,8 @@ void UCompanionComponent::BeginPlay()
 		Input->BindAction(UnFollowAction, ETriggerEvent::Started, this, &UCompanionComponent::OnUnFollow);
 	}
 	
-	GetOwner()->GetWorldTimerManager().SetTimerForNextTick([this]
+	FTimerHandle CompanionTimerHandle;
+	GetOwner()->GetWorldTimerManager().SetTimer(CompanionTimerHandle, [this]
 	{
 		if (CompanionsSubsystem)
 		{
@@ -35,7 +36,7 @@ void UCompanionComponent::BeginPlay()
 		{
 			UE_LOG(LogTemp, Error, TEXT("UCompanionComponent::BeginPlay() Cant find Companion System"));
 		}
-	});
+	},1.0f, false, 1.0);
 }
 
 void UCompanionComponent::OnFollow(const FInputActionValue& InputActionValue)

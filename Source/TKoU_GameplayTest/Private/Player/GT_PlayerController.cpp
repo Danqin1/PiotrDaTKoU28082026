@@ -221,6 +221,11 @@ void AGT_PlayerController::FastRotate(const FInputActionValue& InputActionValue)
 	SetControlRotation(FRotator(CurrentLookPitch, CurrentLookYaw, 0.f));
 }
 
+UPlayerHUDWidget* AGT_PlayerController::GetPlayerHUDWidget_Implementation()
+{
+	return HUD;
+}
+
 void AGT_PlayerController::CacheCurrentLookRotation()
 {
 	const FRotator CurrentControlRotation = GetControlRotation();

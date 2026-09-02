@@ -10,11 +10,9 @@
 
 void UCompanionsSubsystem::PostInit()
 {
-	Super::PostInitProperties();
-	
 	UE_LOG(LogTemp, Log, TEXT("GT Subsystem Initialized: %s"), *GetNameSafe(this));
 	
-	if (UCompanionDatabase* DB = LoadObject<UCompanionDatabase>(nullptr, TEXT("/Game/Data/AI/Companion/DA_Companions")))
+	if (UCompanionDatabase* DB = LoadObject<UCompanionDatabase>(nullptr, TEXT("/Game/Data/AI/Companion/DA_Companions.DA_Companions")))
 	{
 		CompanionsDatabase = DB;
 	}
@@ -39,6 +37,12 @@ bool UCompanionsSubsystem::TrySpawnCompanion(AActor* Player)
 	if (PlayerSave->CompanionSaveData.ChosenCompanion.IsEmpty())
 	{
 		UE_LOG(LogTemp, Error, TEXT(" UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) Cant spawn companion"));
+		return false;
+	}
+	
+	if (!CompanionsDatabase)
+	{
+		UE_LOG(LogTemp, Error, TEXT("UCompanionsSubsystem::TrySpawnCompanion(AActor* Player) CompanionsDatabase not found"));
 		return false;
 	}
 	
