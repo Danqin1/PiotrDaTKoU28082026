@@ -10,7 +10,7 @@ void UGT_GameInstance::Init()
 	
 	ForEachSubsystem<UGT_GameInstanceSubsystem>([](UGT_GameInstanceSubsystem* Subsystem)
 	{
-		UE_LOG(LogTemp, Log, TEXT("Subsystem: %s"), *GetNameSafe(Subsystem));
+		UE_LOG(LogTemp, Log, TEXT("Post Init Subsystem: %s"), *GetNameSafe(Subsystem));
 		Subsystem->PostInit();
 	});
 }

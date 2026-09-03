@@ -52,6 +52,6 @@ EBTNodeResult::Type UBTT_MoveToActor::ExecuteTask(UBehaviorTreeComponent& OwnerC
 		return EBTNodeResult::Failed;
 	}
 
-	Controller->MoveToActor(Actor, Settings->FollowPlayerRadius / 3.f);
+	Controller->MoveToActor(Actor, Settings->FollowPlayerRadius / FollowDeadZoneScale);
 	return EBTNodeResult::Succeeded;
 }

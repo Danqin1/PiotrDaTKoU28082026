@@ -30,6 +30,7 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 	
+	
 	virtual UAISettings* GetSettings_Implementation() const override;
 	
 	virtual void SetState_Implementation(EAIState NewState) override;

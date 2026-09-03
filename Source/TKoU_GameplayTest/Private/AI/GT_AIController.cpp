@@ -27,6 +27,9 @@ UAISettings* AGT_AIController::GetSettings_Implementation() const
 
 void AGT_AIController::SetState_Implementation(EAIState NewState)
 {
+	// this should check in AIKnowledge first if we can change state to new one,
+	// simplified for the test
+	
 	State = NewState;
 	UE_LOG(LogTemp, Warning, TEXT("Companion changed state to: %s"), *UEnum::GetValueAsString(State));
 	

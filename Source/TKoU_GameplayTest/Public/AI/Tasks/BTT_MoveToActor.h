@@ -13,8 +13,14 @@ UCLASS()
 class TKOU_GAMEPLAYTEST_API UBTT_MoveToActor : public UBTTask_BlackboardBase
 {
 	GENERATED_BODY()
+	
+protected:
+	UPROPERTY(EditAnywhere)
+	float FollowDeadZoneScale = 3.0f;
+	
 public:
 	UBTT_MoveToActor();
 
 	virtual EBTNodeResult::Type ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory) override;
+	
 };
