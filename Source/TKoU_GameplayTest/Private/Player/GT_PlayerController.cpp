@@ -175,18 +175,21 @@ void AGT_PlayerController::Look(const FInputActionValue& Value)
 	{
 		return;
 	}
-
+	
 	const FVector2D LookVector = Value.Get<FVector2D>();
 	if (LookVector.IsNearlyZero())
 	{
 		return;
 	}
+	
+	float horSpeed = bUsingGamepad ? PlayerSettings->GamepadHorizontalLookRotationSpeed : PlayerSettings->HorizontalLookRotationSpeed;
+	float verSpeed = bUsingGamepad ? PlayerSettings->GamepadVerticalLookRotationSpeed : PlayerSettings->VerticalLookRotationSpeed;
 
 	const UWorld* World = GetWorld();
 	const float DeltaSeconds = World ? World->GetDeltaSeconds() : 0.f;
 
-	CurrentLookYaw += LookVector.X * PlayerSettings->HorizontalLookRotationSpeed * DeltaSeconds;
-	CurrentLookPitch += LookVector.Y * PlayerSettings->VerticalLookRotationSpeed * DeltaSeconds;
+	CurrentLookYaw += LookVector.X * horSpeed * DeltaSeconds;
+	CurrentLookPitch += LookVector.Y * verSpeed * DeltaSeconds;
 
 	CurrentLookYaw = ClampLookAngle(CurrentLookYaw, PlayerSettings->TopDownLookHorizontalLimits);
 	CurrentLookPitch = ClampLookAngle(CurrentLookPitch, PlayerSettings->TopDownLookVerticalLimits);
@@ -224,6 +227,18 @@ void AGT_PlayerController::FastRotate(const FInputActionValue& InputActionValue)
 UPlayerHUDWidget* AGT_PlayerController::GetPlayerHUDWidget_Implementation()
 {
 	return HUD;
+}
+
+bool AGT_PlayerController::InputKey(const FInputKeyEventArgs& Params)
+{
+	const bool bHandled = Super::InputKey(Params);
+
+	if (Params.Event != IE_Released)
+	{
+		bUsingGamepad = Params.Key.IsGamepadKey();
+	}
+
+	return bHandled;
 }
 
 void AGT_PlayerController::CacheCurrentLookRotation()

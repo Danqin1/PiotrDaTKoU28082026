@@ -49,7 +49,9 @@ protected:
 	
 	UPROPERTY(Transient)
 	UPlayerHUDWidget* HUD;
-		
+	
+	bool bUsingGamepad;
+
 	virtual void BeginPlay() override;
 	virtual void SetupInputComponent() override;
 	virtual void OnPossess(APawn* InPawn) override;
@@ -62,6 +64,7 @@ protected:
 	void FastRotate(const FInputActionValue& InputActionValue);
 
 	virtual UPlayerHUDWidget* GetPlayerHUDWidget_Implementation() override;
+	virtual bool InputKey(const FInputKeyEventArgs& Params) override;
 private:
 
 	void AddDefaultMappingContext();

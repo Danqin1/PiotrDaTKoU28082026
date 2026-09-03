@@ -34,4 +34,10 @@ public:
 
 	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Look", meta = (ClampMin = "0.0", Units = "DegreesPerSecond"))
 	float VerticalLookRotationSpeed = 90.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Look", meta = (ClampMin = "0.0", Units = "DegreesPerSecond"))
+	float GamepadHorizontalLookRotationSpeed = 150.f;
+	
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly, Category = "Look", meta = (ClampMin = "0.0", Units = "DegreesPerSecond"))
+	float GamepadVerticalLookRotationSpeed = 150.f;
 };

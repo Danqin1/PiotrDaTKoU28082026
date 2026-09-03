@@ -1,4 +1,6 @@
-﻿#include "Player/GT_MadelaineAnimInstance.h"
+﻿#include "Player/Animation/GT_MadelaineAnimInstance.h"
+
+#include "Interfaces/GT_PlayerControllableInterface.h"
 #include "Settings/GT_PlayerSettings.h"
 
 void UGT_MadelaineAnimInstance::NativeBeginPlay()

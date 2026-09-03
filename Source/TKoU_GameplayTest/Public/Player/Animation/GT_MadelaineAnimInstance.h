@@ -3,9 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GT_MadelaineCharacter.h"
 #include "Animation/AnimInstance.h"
 #include "GT_MadelaineAnimInstance.generated.h"
+
+class UGT_PlayerSettings;
 
 /**
  * 
